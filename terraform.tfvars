@@ -1,0 +1,30 @@
+# VPC Module Variables
+vpc_cidr = "10.0.0.0/16"
+# public_cidr_block        = "10.0.1${count.index}.0/24"
+# private_cidr_block        = "10.0.2${count.index}.0/24"
+#subnet_cidrs       = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24", "10.0.4.0/24", "10.0.5.0/24", "10.0.6.0/24"]
+#availability_zones = ["us-east-1a", "us-east-1b", "us-east-1c"]
+nat_instance_count = "0"
+instance_count = "1"
+target_group_count = "1"
+alb_count = "1"
+private_subnet_cidrs_count = "0"
+public_subnet_cidrs_count = "3" 
+key_name = "navya"
+instance_type = "t2.micro"
+nat_ami = "ami-0aa210fd2121a98b7"
+ec2_ami = "ami-051f7e7f6c2f40dc1"  
+#postgres
+  postgres_db_count             = "0"
+  postgres_subnet_group_name    = "my-db-subnet-group-308"
+  postgres_allocated_storage    = 20
+  postgres_storage_type         = "gp2"
+  postgres_engine               = "postgres"
+  postgres_engine_version       = "13.7"
+  postgres_instance_class       = "db.t3.micro"
+  postgres_db_name              = "mypostgresdb308"
+  postgres_username             = "dbadmin"
+  postgres_password             = "dbpassword"
+  postgres_parameter_group_name = "default.postgres13"
+  postgres_db_security_group_name        = "my-db-security-group-308"
+  postgres_db_security_group_description = "Allow incoming database traffic-308"
