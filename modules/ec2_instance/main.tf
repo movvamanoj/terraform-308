@@ -16,7 +16,7 @@ resource "aws_instance" "ec2_instance" {
               EOF
 
   tags = {
-    Name = "EC2Instance-308-${count.index + 1}"
+    Name = "EC2Instance-${count.index + 1}"
   }
 }
 

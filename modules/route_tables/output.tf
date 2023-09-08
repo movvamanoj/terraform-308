@@ -8,5 +8,6 @@ output "private_route_table_id" {
   value       = aws_route_table.private.id
 }
 output "route_table_association_id" {
-  value = aws_route_table_association.access_subnets.id
+    value = aws_route_table_association.public_subnets[*].id
+
 }

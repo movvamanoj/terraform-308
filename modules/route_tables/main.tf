@@ -19,7 +19,7 @@ resource "aws_route" "public_internet" {
     
   }
 
-  resource "aws_route_table_association" "access_subnets" {
+  resource "aws_route_table_association" "public_subnets" {
     count = var.public_subnet_cidrs_count
     subnet_id = var.public_subnet[0]
     route_table_id = aws_route_table.public.id

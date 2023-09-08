@@ -101,8 +101,10 @@ module "rds_postgres" {
   postgres_engine_version       = var.postgres_engine_version
   postgres_instance_class       = var.postgres_instance_class
   postgres_db_name              = var.postgres_db_name
-  postgres_username             = var.postgres_username
-  postgres_password             = var.postgres_password
+  postgres_username             = data.vault_generic_secret.aws_rds_postgres_credentials.data["my_postgres_db_username"]
+  postgres_password             = data.vault_generic_secret.aws_rds_postgres_credentials.data["my_postgres_db_password"]
+  # postgres_username = module.vault_secrets.postgres_username #we can pass value from output
+  # postgres_password = module.vault_secrets.postgres_password
   postgres_parameter_group_name = var.postgres_parameter_group_name
   postgres_db_security_group_name        = var.postgres_db_security_group_name
   postgres_db_security_group_description = var.postgres_db_security_group_description

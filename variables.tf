@@ -90,15 +90,15 @@ variable "postgres_db_name" {
   type        = string
 }
 
-variable "postgres_username" {
-  description = "The username for the PostgreSQL database"
-  type        = string
-}
+# variable "postgres_username" {
+#   description = "The username for the PostgreSQL database"
+#   type        = string
+# }
 
-variable "postgres_password" {
-  description = "The password for the PostgreSQL database"
-  type        = string
-}
+# variable "postgres_password" {
+#   description = "The password for the PostgreSQL database"
+#   type        = string
+# }
 
 variable "postgres_parameter_group_name" {
   description = "The name of the PostgreSQL parameter group"
@@ -119,3 +119,23 @@ variable "postgres_db_count" {
   description = "we need to provide postgres_db_count basing on this it will create postgres_dbs"
   
 }
+ ###vault
+variable "vault_address" {
+  type = string
+}
+
+variable "vault_token" {
+  type = string#required
+}
+
+variable "vault_path" {
+  type = string #required
+}
+
+# variable "postgres_db_username" {
+#   default = data.vault_generic_secret.aws_rds_postgres_credentials.data["my_postgres_db_username"]
+# }
+
+# variable "postgres_db_password" {
+#   default = data.vault_generic_secret.aws_rds_postgres_credentials.data["my_postgres_db_password"]
+# }
