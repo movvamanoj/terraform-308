@@ -1,45 +1,57 @@
+#---------------------------------------------------------------------
+# Module Configuration
+#
+# Author: movvmanoj
+# Created: September 08, 2023
+# Copyright (c) 2023 S. All rights
+#---------------------------------------------------------------------
+# This section includes various modules for setting up the AWS environment.
+
+# Module "vpc" Configuration
 module "vpc" {
   source   = "./modules/vpc"
   vpc_cidr = var.vpc_cidr
 }
 
+# Module "public_subnet" Configuration
 module "public_subnet" {
   source   = "./modules/public_subnet"
   vpc_id   = module.vpc.vpc_id
   vpc_cidr = var.vpc_cidr
   public_subnet_cidrs_count = var.public_subnet_cidrs_count
-
 }
-
+# Module "private_subnet" Configuration
 module "private_subnet" {
   source   = "./modules/private_subnet"
   vpc_id   = module.vpc.vpc_id
   vpc_cidr = var.vpc_cidr
   private_subnet_cidrs_count = var.private_subnet_cidrs_count
 }
-
-module "ig" {
-  source = "./modules/ig"
+# Module "internet_gateway" Configuration
+module "internet_gateway" {
+  source = "./modules/internet_gateway"
   vpc_id = module.vpc.vpc_id
 
 }
-
+# Module "route_tables" Configuration
 module "route_tables" {
   source     = "./modules/route_tables"
   vpc_id     = module.vpc.vpc_id
-  gateway_id = module.ig.igw_id
+  gateway_id = module.internet_gateway.igw_id
+  nat_instance_count = var.nat_instance_count
+  nat_instance_id = module.nat_instance.nat_instance_ids
   public_subnet = module.public_subnet.public_subnet_ids
   public_subnet_cidrs_count = var.public_subnet_cidrs_count
-
-
+  private_subnet            = module.private_subnet.private_subnet_ids
+  private_subnet_cidrs_count= var.private_subnet_cidrs_count
 }
 
-
+# Module "security_groups" Configuration
 module "security_groups" {
   source = "./modules/security_groups"
   vpc_id = module.vpc.vpc_id
 }
-
+# Module "nat_instance" Configuration
 module "nat_instance" {
   source = "./modules/nat_instance"
   vpc_id = module.vpc.vpc_id
@@ -50,9 +62,10 @@ module "nat_instance" {
   instance_type = var.instance_type
   security_groups = [module.security_groups.security_group_id]
 }
-
+# Module "ec2_instance" Configuration
 module "ec2_instance" {
   source = "./modules/ec2_instance"
+  iam_role_name = module.iam.ec2_role_name
   vpc_id = module.vpc.vpc_id
   public_subnet = module.public_subnet.public_subnet_ids
   instance_count = var.instance_count
@@ -74,6 +87,7 @@ module "target_group" {
   target_group_count = var.target_group_count
   instance_count = var.instance_count
 }
+# Module "alb" Configuration
 module "alb" {
   source              = "./modules/alb"
   vpc_id              = module.vpc.vpc_id
@@ -88,7 +102,7 @@ module "alb" {
   public_subnet = module.public_subnet.public_subnet_ids
   az_count = length(data.aws_availability_zones.available.names)
 }
-
+# Module "rds_postgres" Configuration
 module "rds_postgres" {
   source = "./modules/rds/PostgreSQL"
   private_subnet = module.private_subnet.private_subnet_ids
@@ -108,4 +122,8 @@ module "rds_postgres" {
   postgres_parameter_group_name = var.postgres_parameter_group_name
   postgres_db_security_group_name        = var.postgres_db_security_group_name
   postgres_db_security_group_description = var.postgres_db_security_group_description
+}
+# Module "iam" Configuration
+module "iam" {
+  source = "./modules/iam"
 }

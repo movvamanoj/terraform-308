@@ -1,3 +1,18 @@
-.terraform/
+#---------------------------------------------------------------------
+# Git Ignore Configuration
+#
+# Author: movvmanoj
+# Created: September 08, 2023
+# Copyright (c) 2023 S. All rights
+#---------------------------------------------------------------------
+# This file specifies patterns to be ignored by Git.
+
+# Ignore Terraform state and lock files
 .terraform
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup
+.terraform.lock.hcl
+
+# Ignore Vault variables file
 vault.tfvars

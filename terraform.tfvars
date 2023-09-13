@@ -15,7 +15,7 @@ instance_type = "t2.micro"
 nat_ami = "ami-0aa210fd2121a98b7"
 ec2_ami = "ami-051f7e7f6c2f40dc1"  
 #postgres
-  postgres_db_count             = "1"
+  postgres_db_count             = "0"
   postgres_subnet_group_name    = "my-db-subnet-group-308"
   postgres_allocated_storage    = 20
   postgres_storage_type         = "gp2"

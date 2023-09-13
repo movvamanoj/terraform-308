@@ -1,12 +1,23 @@
+#---------------------------------------------------------------------
+# AWS RDS PostgreSQL Database Configuration
+#
+# Author: movvmanoj
+# Created: September 10, 2023
+# Copyright (c) 2023 S. All rights
+#---------------------------------------------------------------------
+# This section defines resources for an AWS RDS PostgreSQL database.
+
+# Define a DB subnet group for PostgreSQL.
+
 resource "aws_db_subnet_group" "postgres" {
   count      = var.postgres_db_count
   name       = "${var.postgres_subnet_group_name}-${count.index}"
-  # name       = var.postgres_subnet_group_name
   subnet_ids = var.private_subnet
   tags = {
     Name = "my-db-subnet-group-308-${count.index}"
   }
 }
+# Define a security group for the database instance.
 resource "aws_security_group" "db_security_group" {
   # count = var.postgres_db_count
   # name        = "${var.postgres_db_security_group_name}-${count.index}"
@@ -24,7 +35,7 @@ resource "aws_security_group" "db_security_group" {
   }
   
 }
-
+# Define the RDS PostgreSQL database instances.
 resource "aws_db_instance" "postgres" {
   count               = var.postgres_db_count
   allocated_storage    = var.postgres_allocated_storage
@@ -33,12 +44,13 @@ resource "aws_db_instance" "postgres" {
   engine_version       = var.postgres_engine_version
   instance_class       = var.postgres_instance_class
   identifier          = "${var.postgres_db_name}-${count.index}"
-  # identifier           = var.postgres_db_name
   username             = var.postgres_username
   password             = var.postgres_password
   parameter_group_name = var.postgres_parameter_group_name
   skip_final_snapshot  = true
   deletion_protection = false  # Disable delete protection
+
+  # Associate with the specified security group and DB subnet group.
   # db_subnet_group_name = aws_db_subnet_group.postgres.name
   vpc_security_group_ids = [aws_security_group.db_security_group.id]
   db_subnet_group_name = aws_db_subnet_group.postgres[count.index].name  # Use count.index to reference the correct subnet group

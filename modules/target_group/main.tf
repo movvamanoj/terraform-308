@@ -1,3 +1,13 @@
+#---------------------------------------------------------------------
+# AWS Load Balancer Target Group Configuration
+#
+# Author: movvmanoj
+# Created: September 10, 2023
+# Copyright (c) 2023 S. All rights
+#---------------------------------------------------------------------
+# This section defines a target group for an AWS Load Balancer.
+
+# Define AWS Load Balancer Target Group
 resource "aws_lb_target_group" "my_target_group" {
   count = var.target_group_count
   name     = "target-group-308-${count.index + 1}"  # Automatic name increment
