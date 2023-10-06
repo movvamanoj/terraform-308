@@ -9,7 +9,7 @@
 
 # AWS Provider Configuration
 provider "aws" {
-  region = "us-east-1" # Set your desired AWS region here
+  region = "ap-south-1" # Set your desired AWS region here
 }
 
 # Data Source for Availability Zones
